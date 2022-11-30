@@ -67,7 +67,10 @@ TEMPLATES = [
         },
     },
 ]
-
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
+    # 'earn.backends.CustomerBackend'
+)
 WSGI_APPLICATION = 'anytime.wsgi.application'
 
 
@@ -113,9 +116,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTHENTICATION_BACKENDS = (
-    ('django.contrib.auth.backends.ModelBackend'),
-)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -125,4 +126,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL='earn.Admin'
+
+AUTH_USER_MODEL='earn.CustomUser'
