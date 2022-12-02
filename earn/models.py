@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
     middle_name=models.CharField(max_length=50,blank=True)
     last_name=models.CharField(max_length=50,blank=False)
     email=models.EmailField(max_length=50,blank=False)
-     
+    mobile=models.IntegerField(max_length=10,unique=True,null=True) 
    
 
     USERNAME_FIELD = 'first_name'
@@ -30,8 +30,8 @@ class CustomUser(AbstractUser):
 
 class Advisor(models.Model):
     advisor_user=models.OneToOneField(CustomUser,on_delete=models.CASCADE,primary_key=True)
-    net_balance=models.DecimalField(max_digits=5,decimal_places=2,validators=[MinValueValidator(Decimal('0.00 '))])    
-    total_earning =models.DecimalField(max_digits=5,decimal_places=2,validators=[MinValueValidator(Decimal('0.00 '))])
+    net_balance=models.DecimalField(max_digits=5,decimal_places=2,validators=[MinValueValidator(Decimal('0.00 '))],null=True)    
+    total_earning =models.DecimalField(max_digits=5,decimal_places=2,validators=[MinValueValidator(Decimal('0.00 '))],null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
