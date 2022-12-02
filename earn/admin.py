@@ -14,5 +14,7 @@ class CustomUserAdmin(admin.ModelAdmin):
     search_fields=('first_name',)
     # ordering=('first_name',)
  
-   
+@admin.register(Advisor)
+class AdvisorUser(admin.ModelAdmin):
+    list_display=['advisor_user','net_balance','total_earning']   
 

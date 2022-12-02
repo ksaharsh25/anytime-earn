@@ -3,8 +3,9 @@ from django.contrib.auth.models import AbstractUser,BaseUserManager
 from .managers import CustomUserManager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import PermissionsMixin
-
-
+from django.core.validators import MinValueValidator
+from decimal import Decimal
+from django.db.models.signals import post_save
 # Create your models here.
 class CustomUser(AbstractUser):
     username=None
@@ -27,4 +28,16 @@ class CustomUser(AbstractUser):
         else:
             return f"{self.first_name} {self.last_name}"
 
-    
+class Advisor(models.Model):
+    advisor_user=models.OneToOneField(CustomUser,on_delete=models.CASCADE,primary_key=True)
+    net_balance=models.DecimalField(max_digits=5,decimal_places=2,validators=[MinValueValidator(Decimal('0.00 '))])    
+    total_earning =models.DecimalField(max_digits=5,decimal_places=2,validators=[MinValueValidator(Decimal('0.00 '))])
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+
+def create_wallet(sender,instance,created,**kwargs):
+    if created:
+        Advisor.objects.create(advisor_user=instance)
+        instance.save()
+post_save.connect(create_wallet,sender=CustomUser)        
